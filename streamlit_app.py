@@ -39,7 +39,7 @@ if st.button("Find Flights", key='55'):
     aviationstack_api = os.environ["AVIATIONSTACK_API_KEY"]
     aviationstack_url = 'http://api.aviationstack.com/v1/flights'
     params = {
-  'access_key': aviationstack_api,
+  'access_key': st.secrets["AVIATIONSTACK_API_KEY"],
   'dep_iata': departure_iata,
   'arr_iata': arrival_iata,
 }
