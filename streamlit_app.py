@@ -27,8 +27,8 @@ st.image(image, caption='Airplane taking off from the airport. Image Credit: pha
 st.markdown("This application is a dashboard that allows Users to locate real-time flights, view estimated departure/arrival times, whether or not a flight is delayed, and analyze public sentiment surrounding the airline industry through Tweets 🐦 ")
 
 st.markdown("## Find Real-Time Flights (International and Domestic)")
-departure_iata = st.text_input("Enter the IATA code of the Airport you are departing from.", max_chars=3, type="default", help="The IATA code is a 3-letter code. For example, 'JFK' is John F. Kennedy International Airport")
-arrival_iata = st.text_input("Please enter the IATA code of the Destination Airport.", max_chars=3, type="default", help="The IATA code is a 3-letter code. For example, 'JFK' is John F. Kennedy International Airport")
+departure_iata = st.text_input("Enter the 3-letter IATA code of the Airport you are departing from.", max_chars=3, type="default")
+arrival_iata = st.text_input("Please enter the IATA code of the Destination Airport.", max_chars=3, type="default")
 
 
 if st.button("Find Flights", key='55'):
