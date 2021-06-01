@@ -11,7 +11,7 @@ import requests
 from dotenv import load_dotenv
 
 
-DATA_URL = ("Tweets.csv")
+DATA_URL = ("/Tweets.csv")
 
 @st.cache(persist=True)
 def load_data():
