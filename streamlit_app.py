@@ -11,7 +11,7 @@ import requests
 from dotenv import load_dotenv
 
 
-DATA_URL = ("/Users/admin/Desktop/python_bootcamp/up-in-the-air/Tweets.csv")
+DATA_URL = ("Tweets.csv")
 
 @st.cache(persist=True)
 def load_data():
@@ -36,7 +36,8 @@ if st.button("Find Flights", key='55'):
     st.markdown("## FLIGHT DASHBOARD")
     st.text(f"Current Flights from {departure_iata} to {arrival_iata}")
     load_dotenv("api_key.env")
-    aviationstack_api = os.getenv("AVIATIONSTACK_API_KEY")
+    os.environ["AVIATIONSTACK_API_KEY"] == st.secrets["AVIATIONSTACK_API_KEY"]
+    aviationstack_api = os.environ["AVIATIONSTACK_API_KEY"]
     aviationstack_url = 'http://api.aviationstack.com/v1/flights'
     params = {
   'access_key': aviationstack_api,
