@@ -35,7 +35,9 @@ if st.button("Find Flights", key='55'):
     st.markdown("## FLIGHT DASHBOARD")
     st.text(f"Current Flights from {departure_iata} to {arrival_iata}")
     #load_dotenv(st.secrets["AVIATIONSTACK_API_KEY"])
-    os.environ["AVIATIONSTACK_API_KEY"] == st.secrets["AVIATIONSTACK_API_KEY"]
+    #os.environ.get["AVIATIONSTACK_API_KEY"] == st.secrets["AVIATIONSTACK_API_KEY"]
+    api_key = st.secrets["AVIATIONSTACK_API_KEY"]
+    st.write(api_key)
     aviationstack_api = os.environ["AVIATIONSTACK_API_KEY"]
     aviationstack_url = 'http://api.aviationstack.com/v1/flights'
     params = {
