@@ -10,7 +10,12 @@ import os
 import requests
 from dotenv import load_dotenv
 
-
+import random
+from web3 import Web3
+import requests
+import datetime
+import json
+from eth_account import Account
 
 @st.cache(persist=True)
 def load_data():
@@ -20,6 +25,40 @@ def load_data():
 
 data = load_data()
 
+insurance_address = os.environ["INSURANCE_ACC"]
+insurance_pk = os.environ["INSURANCE_PK"]
+insurance_cost = 1900000000000000
+insurance_account = Account.from_key(insurance_pk)
+
+def uniqueid():
+    seed = random.getrandbits(32)
+    while True:
+        yield seed
+        seed += 1
+
+def create_raw_tx(account, recipient, amount):
+    web3 = Web3(Web3.HTTPProvider("http://127.0.0.1:8545"))
+    gasEstimate = web3.eth.estimateGas(
+        {"from": account.address, "to": recipient, "value": amount}
+    )
+    return {
+        "from": account.address,
+        "to": recipient,
+        "value": amount,
+        "gasPrice": web3.eth.gasPrice,
+        "gas": gasEstimate,
+        "nonce": web3.eth.getTransactionCount(account.address),
+    }
+
+
+def send_tx(account, recipient, amount):
+    web3 = Web3(Web3.HTTPProvider("http://127.0.0.1:8545"))
+    tx = create_raw_tx(account, recipient, amount)
+    signed_tx = account.sign_transaction(tx)
+    result = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
+    return result.hex()
+
+
 image = Image.open('airplane.jpg')
 
 st.title("What's Up in the Air(line Industry)?")
@@ -27,9 +66,8 @@ st.image(image, caption='Airplane taking off from the airport. Image Credit: pha
 st.markdown("This application is a dashboard that allows Users to locate real-time flights, view estimated departure/arrival times, whether or not a flight is delayed, and analyze public sentiment surrounding the airline industry through Tweets 🐦 ")
 
 st.markdown("## Find Real-Time Flights (International and Domestic)")
-departure_iata = st.text_input("Enter the 3-letter IATA code of the Airport you are departing from.", max_chars=3, type="default")
-arrival_iata = st.text_input("Please enter the IATA code of the Destination Airport.", max_chars=3, type="default")
-
+departure_iata = st.text_input("Enter the 3-letter IATA code of the Airport you are departing from.", max_chars=3, type="default", help="The IATA code is a 3-letter code. For example, 'JFK' is John F. Kennedy International Airport")
+arrival_iata = st.text_input("Please enter the IATA code of the Destination Airport.", max_chars=3, type="default", help="The IATA code is a 3-letter code. For example, 'JFK' is John F. Kennedy International Airport")
 
 if st.button("Find Flights", key='55'):
     st.markdown("## FLIGHT DASHBOARD")
@@ -59,8 +97,70 @@ if st.button("Find Flights", key='55'):
         st.text(f"Est arrival date and time: {est_arrival[0]}:{est_departure[1].split('+')[0]}")
         st.text(f"Arrival Delay:{arrival_delay}")
         st.text("-----------------------------------------------------")
+        
+st.markdown("## Buy Insurance for Your Flight")
+first_name = st.text_input("First Name", type="default")
+last_name = st.text_input("Last Name", type="default")
+ticket_num = st.text_input("Ticket #", type = 'default')
+airline = st.text_input("Airline Code", max_chars=2, type="default", help="For example, American Airlines is 'AA'")
+flight_num = st.text_input("Flight Number", max_chars=4, type="default", help="Enter the numbers listed after the airline code.")
+flight_date = st.text_input("Date of Departure (Format: YYYY-MM-DD)", max_chars=10, type="default")
+public_user = st.text_input("Public Address", max_chars = 42, value = '0x', type= 'default', help="ETH wallet address begins with 'Ox'.")
+private_user = st.text_input("Private Key", max_chars = 64, type = 'default', help="To sign the transaction, enter your private key.")
+
+if st.button("Buy Insurance", key='66'):
+
+    account_temp = Account.from_key(private_user)
+        
+        # Placeholder to verify wallet credentials and pay for insurance.
+    tx = send_tx(account_temp, insurance_address, insurance_cost)
+        
+    unique_sequence = uniqueid()
+    claim_id = next(unique_sequence)
+    user_temp = {
+        "First Name": first_name,
+        "Last Name": last_name,
+        "Ticket #": ticket_num,
+        "Flight": airline + flight_num,
+        "Flight Date": flight_date,
+        "Public Address": public_user,
+        "Tx #": tx,
+        "Claim ID": claim_id
+        }
+    user_json = json.dumps(user_temp)
+        
+    with open(f'{str(user_json[7])}.json', 'w') as json_file:
+        json.dump(user_temp, json_file)
+        
+        
+st.markdown("## Claim Your Insurance")
+
+user_claim = st.number_input("Write down your claim ID")
 
 
+if st.button("Claim Insurance", key = '77'):
+    user_json = open(f'{str(user_claim)}.json', 'w')
+    if user_json: # Need to compare claim id to some database.
+        api_key = st.secrets["AVIATIONSTACK_API_KEY"]
+        aviationstack_api = os.environ["AVIATIONSTACK_API_KEY"]
+        aviationstack_url = 'http://api.aviationstack.com/v1/flights'
+        params = {
+          'access_key': aviationstack_api,
+          'flight_date': user_json[4],
+          'flight_status': 'landed',
+          'flight_iata': user_json[3],
+          'min_delay_arr': 60
+        }
+        api_result = requests.get(aviationstack_url, params)
+        api_response = api_result.json()
+        if api_result:
+            delay = api_response['data'][i]['arrival']['delay']
+            # Extract user's Public address from json, calculate payout, and send the transaction.
+            amount_to_pay = (delay / 2) * 10000
+            claim_tx = send_tx(insurance_account, user_json[5], amount_to_pay)
+        else: print("No flights found.")
+    else: print("Claim doesn't exist.")
+              
 st.sidebar.title("Taking a look at Tweets about U.S. Airlines")
 
 st.sidebar.markdown("Use the dashboard to explore public sentiment about the airline industry.")
