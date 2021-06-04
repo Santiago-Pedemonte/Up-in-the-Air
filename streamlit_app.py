@@ -106,7 +106,7 @@ airline = st.text_input("Airline Code", max_chars=2, type="default", help="For e
 flight_num = st.text_input("Flight Number", max_chars=4, type="default", help="Enter the numbers listed after the airline code.")
 flight_date = st.text_input("Date of Departure (Format: YYYY-MM-DD)", max_chars=10, type="default")
 public_user = st.text_input("Public Address", max_chars = 42, value = '0x', type= 'default', help="ETH wallet address begins with 'Ox'.")
-private_user = st.text_input("Private Key", max_chars = 64, type = 'default', help="To sign the transaction, enter your private key.", type = 'password')
+private_user = st.text_input("Private Key", max_chars = 64, help="To sign the transaction, enter your private key.", type = 'password')
 
 if st.button("Buy Insurance", key='66'):
 
