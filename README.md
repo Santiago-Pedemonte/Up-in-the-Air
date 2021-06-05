@@ -45,5 +45,13 @@
 - Once the form required to buy insurance is filled out properly - by providing a first/last name, ticket # (for testing purposes, a User can enter a random series of numbers), airline code, flight number, departure date, and testETH wallet information - and submitted, the transaction can be verified on the local Ganache Workspace. Picture below is a successful purchase of flight insurance on our personal blockchain: 
 ![Ganache Confirmation](ganache-block-confirm.png)
 
+## Spoiled by Choice
+#### Integrating Machine Learning
+- During the exercise of brainstorming about the ideas we thought of trying and one of them was predicting future delays. The steps needed were:
+1. Flight information that has been collected
+2. Weather API
+- A simplified way would have been to slice the flight and weather data by horizons (Northeast/Southwest/East/North...etc) and change rain/snow/fog to 1 and every other fair weather to 0, put the airline as dummy code and solve for y which would be either the departure delay or more importantly the arrival delay. Then there run a Random Forrest Algorthim and try to see the results of our predictions which may not have been accurate for the following reasons:
 
-
+- The original hypothesis is that weather controls most of the delays but that is flawed. Air traffic can be caused by a myrid of things from an airport employee not stocking enough oxygen , gas or a customer feeling sick right in the time of departure and that can casade departure delays from the gate for the rest of the days and add sky traffic. That problem would be hard to account for and could cause an issue in our accuracy and precision. 
+- The other problem is to be able to capture the impact of the weather either being from the arrival location or departure location would have been hard.
+- The final problem is that even with a 20 minuuite departure delay it seems that there is enough cushion in their time schedule that there is rarely any arrival delays unless the departure delay is severe. They under promise and over deliever.
