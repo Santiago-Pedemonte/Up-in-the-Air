@@ -45,7 +45,7 @@
 - Once the form required to buy insurance is filled out properly - by providing a first/last name, ticket # (for testing purposes, a User can enter a random series of numbers), airline code, flight number, departure date, and testETH wallet information - and submitted, the transaction can be verified on the local Ganache Workspace. Picture below is a successful purchase of flight insurance on our personal blockchain: 
 ![Ganache Confirmation](ganache-block-confirm.png)
 
-## Spoiled by Choice
+## Future Ideas
 #### Integrating Machine Learning
 - During the exercise of brainstorming about the ideas we thought of trying and one of them was predicting future delays. The steps needed were:
 1. Flight information that has been collected
