@@ -42,7 +42,7 @@
 ![WordCloud](wordcloud-sentiment.png)
 
 ## Successfully Purchasing Flight Insurance through the Webapp. 
-- Once the form required to buy insurance is filled out properly (through providing a first/last name, ticket # (for testing purposes, a User can enter a random series of numbers), airline code, flight number, departure date, and testETH wallet information) and submitted, the transaction can be verified on the local Ganache Workspace. Picture below is a successful purchase of flight insurance on our personal blockchain: 
+- Once the form required to buy insurance is filled out properly - by providing a first/last name, ticket # (for testing purposes, a User can enter a random series of numbers), airline code, flight number, departure date, and testETH wallet information - and submitted, the transaction can be verified on the local Ganache Workspace. Picture below is a successful purchase of flight insurance on our personal blockchain: 
 ![Ganache Confirmation](ganache-block-confirm.png)
 
 
