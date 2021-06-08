@@ -2,6 +2,8 @@
 ## An Exploration of the Airline Industry, Flight Delays, and the Purchase of Flight Insurance through the Blockchain
 ![airplane](Images/airplane.jpg)
 
+Link to Website: https://share.streamlit.io/rawnakmahjabib/up-in-the-air/main
+
 ## Required Python Dependencies 
 -	A requirements file to manage external dependencies (that are not included with a standard Python installation) used to run the app is made available [HERE](requirements.txt)
 -	Recommendation: Install the Python packages listed in the requirements file in a [virtual environment]( https://packaging.python.org/tutorials/installing-packages/#optionally-create-a-virtual-environment), rather than installing them globally. 
